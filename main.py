@@ -20,10 +20,9 @@ load_dotenv()
 logging.basicConfig(level="INFO")
 
 discordUrl = os.environ.get("url")
+list_manga = os.environ.get("list_manga").split("|")
 
 news_feed = feedparser.parse('https://www.japscan.ws/rss/')
-
-list_manga = ['boku-girl', 'my-hero-academia', 'the-constellation-only-like-me', 'kill-the-dragon']
 
 news = []
 
