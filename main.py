@@ -7,6 +7,7 @@ import os
 import logging
 
 from logging.handlers import TimedRotatingFileHandler
+from pprint import pprint
 
 logname = "check_manga.log"
 handler = TimedRotatingFileHandler(logname, when="midnight", interval=1)
@@ -30,12 +31,18 @@ check_manga = open("check_manga.log", "r")
 with open('check_manga.log') as f:
     lines = f.read().splitlines()
 
+check_manga.close()
+pprint(lines)
+
 for entry in news_feed.entries:
     if entry.link not in lines:
         if any(ext in entry.link for ext in list_manga):
             logger.info(entry.link)
-            news.append(entry.link)
+            #news.append(entry.link)
+            print(entry.link)
 
 
 if len(news) > 0:
     response = requests.post(discordUrl, data={"content": "@everyone "+', '.join(news)})
+
+logging.shutdown()
