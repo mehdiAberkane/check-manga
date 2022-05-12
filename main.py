@@ -41,5 +41,7 @@ for entry in news_feed.entries:
 
 if len(news) > 0:
     response = requests.post(discordUrl, data={"content": "@everyone "+', '.join(news)})
+    pprint(response.text)
+    pprint(response.status_code)
 
 logging.shutdown()
