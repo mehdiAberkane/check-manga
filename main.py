@@ -35,7 +35,7 @@ check_manga.close()
 
 for entry in news_feed.entries:
     if entry.link not in lines:
-        if any(ext in entry.link for ext in list_manga):
+        if any("/"+ext+"/" in entry.link for ext in list_manga):
             logger.info(entry.link)
             news.append(entry.link)
 
