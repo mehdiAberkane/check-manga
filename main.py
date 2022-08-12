@@ -5,6 +5,7 @@ import feedparser
 import requests
 import os
 import logging
+from discord_client import *
 
 from logging.handlers import TimedRotatingFileHandler
 from pprint import pprint
@@ -23,6 +24,9 @@ logging.basicConfig(level="INFO")
 discordUrl = os.environ.get("url")
 list_manga = os.environ.get("list_manga").split("|")
 
+
+exit('test')
+
 news_feed = feedparser.parse('https://www.japscan.me/rss/')
 
 news = []
@@ -32,6 +36,8 @@ with open('check_manga.log') as f:
     lines = f.read().splitlines()
 
 check_manga.close()
+
+#TODO recupere les derniers message dans discord pour check si le lien existe deja et vire les logs
 
 for entry in news_feed.entries:
     if entry.link not in lines:
