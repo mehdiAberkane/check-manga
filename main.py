@@ -5,7 +5,7 @@ import feedparser
 import requests
 import os
 import logging
-from discord_client import *
+#from discord_client import *
 
 from logging.handlers import TimedRotatingFileHandler
 from pprint import pprint
@@ -23,9 +23,6 @@ logging.basicConfig(level="INFO")
 
 discordUrl = os.environ.get("url")
 list_manga = os.environ.get("list_manga").split("|")
-
-
-exit('test')
 
 news_feed = feedparser.parse('https://www.japscan.me/rss/')
 
