@@ -5,10 +5,12 @@ import feedparser
 import requests
 import os
 import logging
-#from discord_client import *
 
 from logging.handlers import TimedRotatingFileHandler
 from pprint import pprint
+
+from dotenv import load_dotenv
+load_dotenv()
 
 logname = "check_manga.log"
 handler = TimedRotatingFileHandler(logname, when="midnight", interval=1)
@@ -16,15 +18,13 @@ handler.suffix = "%Y%m%d"
 logger = logging.getLogger('simple')
 logger.addHandler(handler)
 
-from dotenv import load_dotenv
-load_dotenv()
-
 logging.basicConfig(level="INFO")
 
 discordUrl = os.environ.get("url")
 list_manga = os.environ.get("list_manga").split("|")
+flux_rss = os.environ.get("flux_rss")
 
-news_feed = feedparser.parse('https://www.japscan.me/rss/')
+news_feed = feedparser.parse(flux_rss)
 
 news = []
 
@@ -34,10 +34,9 @@ with open('check_manga.log') as f:
 
 check_manga.close()
 
-#TODO recupere les derniers message dans discord pour check si le lien existe deja et vire les logs
-
 for entry in news_feed.entries:
     if entry.link not in lines:
+        print(entry.link)
         if any("/"+ext+"/" in entry.link for ext in list_manga):
             r = requests.get(entry.link)
             if "SPOILER" in r.text or "Version VUS" in r.text or "RAW" in r.text:
@@ -47,7 +46,5 @@ for entry in news_feed.entries:
 
 if len(news) > 0:
     response = requests.post(discordUrl, data={"content": "@everyone "+', '.join(news)})
-    pprint(response.text)
-    pprint(response.status_code)
 
 logging.shutdown()

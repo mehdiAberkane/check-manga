@@ -1,3 +1,4 @@
 .env
 check_manga.log
 *.log*
+__pycache__
